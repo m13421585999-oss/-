@@ -4,7 +4,14 @@ import { GoogleGenAI, Type } from '@google/genai';
 import html2canvas from 'html2canvas';
 
 // Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// 强制使用 Vite 的语法读取环境变量
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+// 初始化 AI，并强行把请求地址改为中转平台
+const ai = new GoogleGenAI({ 
+    apiKey: apiKey,
+    baseURL: "https://api.gptsapi.net"
+});
 
 interface AnalysisResult {
   overallScore: number;
@@ -164,7 +171,7 @@ export default function App() {
               data: base64Data
             }
           },
-          `你是一位专业的声乐教练和音乐制作人，名叫张舒老师。请聆听这段清唱表演，并提供高度专业、具有建设性且详细的点评。分析其音准、节奏、音色、情感和气息控制。诚实地指出不足之处，但要多加鼓励。请务必使用中文回答，并以要求的 JSON 格式返回分析结果。\n\n${extraPrompt}`
+          `你是一位专业的声乐教练，名叫张舒老师。请聆听这段清唱表演，并提供高度专业、具有建设性且详细的点评。分析其音准、节奏、音色、情感和气息控制。诚实地指出不足之处，但要多加鼓励。请务必使用中文回答，并以要求的 JSON 格式返回分析结果。\n\n${extraPrompt}`
         ],
         config: {
           responseMimeType: "application/json",
