@@ -8,9 +8,11 @@ import html2canvas from 'html2canvas';
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
 
 // 初始化 AI，并强行把请求地址改为中转平台
-const ai = new GoogleGenAI({ 
+const ai = new GoogleGenAI({
     apiKey: apiKey,
-    baseURL: "https://api.gptsapi.net"
+    httpOptions: {
+        baseUrl: "https://api.gptsapi.net"
+    }
 });
 
 interface AnalysisResult {
