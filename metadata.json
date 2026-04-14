@@ -1,5 +1,5 @@
 {
   "name": "张舒声乐点评助手",
   "description": "上传一段您的清唱录音。张舒老师将从音准、节奏、音色等维度为您进行专业分析，并提供切实可行的提升建议。",
-  "requestFramePermissions": []
+  "requestFramePermissions": ["microphone"]
 }
