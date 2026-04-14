@@ -4,7 +4,15 @@ import { GoogleGenAI, Type } from '@google/genai';
 import html2canvas from 'html2canvas';
 
 // Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// 这里加了双重保险，确保无论如何都能读到你在 Vercel 设置的密钥
+const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY || "";
+
+const ai = new GoogleGenAI({
+  apiKey: apiKey,
+  httpOptions: {
+    baseUrl: "https://api.gptsapi.net" // 👈 最关键的一步：把国内直连的管子重新接上！
+  }
+});
 
 interface AnalysisResult {
   overallScore: number;
@@ -208,7 +216,7 @@ export default function App() {
       }
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.1-pro-preview",
+        model: "gemini-2.5-flash",
         contents: [
           {
             inlineData: {
